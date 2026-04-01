@@ -1,0 +1,18 @@
+{
+  "branch": "main",
+  "depends_recipe": "",
+  "description_control": "",
+  "description_recipe": "micomupgrade",
+  "history_source_dir": "MICOMUpgrade",
+  "internal_package_name": "enigma2-plugin-systemplugins-micomupgrade",
+  "module_dir_name": "MICOMUpgrade",
+  "output_subdir": "MICOMUpgrade",
+  "package_name": "enigma2-plugin-systemplugins-micomupgrade",
+  "plugin_src_rel": "MICOMUpgrade",
+  "python_package": "MICOMUpgrade",
+  "rdepends_recipe": "",
+  "replaces": "",
+  "repo_name": "MICOMUpgrade",
+  "rrecommends": "",
+  "rreplaces": ""
+}
