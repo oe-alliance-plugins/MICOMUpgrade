@@ -8,21 +8,16 @@ from six.moves import urllib
 
 from Plugins.Plugin import PluginDescriptor
 
-from Components.config import config, getConfigListEntry, ConfigSubsection, ConfigText, ConfigSelection, ConfigYesNo, ConfigText
-from Components.ConfigList import ConfigListScreen
 from Components.ActionMap import ActionMap
 from Components.Sources.StaticText import StaticText
-from Components.Pixmap import Pixmap
 from Components.Label import Label
 
 from Components.FileList import FileList
-from Components.Slider import Slider
 
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 
-from enigma import ePoint, eConsoleAppContainer, eTimer
-from Tools.Directories import resolveFilename, SCOPE_PLUGINS
+from enigma import eTimer
 from shutil import copyfile
 
 fwlist = None
@@ -236,7 +231,7 @@ class Filebrowser(Screen):
 			if self.check_ext is False:
 				self.session.open(MessageBox, _("You chose the incorrect file."), MessageBox.TYPE_INFO)
 				return
-		except:
+		except Exception:
 			self.session.open(MessageBox, _("You chose the incorrect file."), MessageBox.TYPE_INFO)
 			return
 
@@ -272,7 +267,7 @@ class Filebrowser(Screen):
 		opener = urllib.URLopener()
 		try:
 			opener.open(uri)
-		except:
+		except Exception:
 			#self.session.open(MessageBox, _("File not found in this URL:\n%s"%(uri)), MessageBox.TYPE_INFO, timeout = 10)
 			print("[FirmwareUpgrade] - Fail to download. URL :", uri)
 			self.session.open(MessageBox, _(errmsg), MessageBox.TYPE_INFO, timeout=10)
@@ -280,7 +275,7 @@ class Filebrowser(Screen):
 			return False
 		try:
 			f, h = urlretrieve(uri, tar, doHook)
-		except IOError as msg:
+		except OSError as msg:
 			#self.session.open(MessageBox, _(str(msg)), MessageBox.TYPE_INFO, timeout = 10)
 			print("[FirmwareUpgrade] - Fail to download. ERR_MSG :", str(msg))
 			self.session.open(MessageBox, _(errmsg), MessageBox.TYPE_INFO, timeout=10)
@@ -296,7 +291,7 @@ class Filebrowser(Screen):
 		def cbDownloadDone(tar):
 			try:
 				self["status"].setText("Downloaded : %s\nSelect to press OK, Exit to press Cancel." % (tar))
-			except:
+			except Exception:
 				pass
 		# target
 		global fwdata
@@ -497,7 +492,6 @@ class FirmwareUpgrade(Screen):
 
 		copyfile(self.updateFilePath, "/tmp/micom.bin")
 		self.doReboot()
-		return
 
 	def doFileOpen(self):
 		fbs = self.session.open(Filebrowser, self, "micom")
@@ -519,7 +513,7 @@ class FirmwareUpgrade(Screen):
 			if int(self.verfile) <= int(self.version):
 				self.session.open(MessageBox, _("You can not upgrade to the same or lower version !"), MessageBox.TYPE_INFO, timeout=10)
 				return
-		except:
+		except Exception:
 			pass  # always flash when no micom version
 		msg = "You should not be stop during the upgrade.\nDo you want to upgrade?"
 		self.session.openWithCallback(self.cbRunUpgrade, MessageBox, _(msg), MessageBox.TYPE_YESNO, timeout=15, default=True)
