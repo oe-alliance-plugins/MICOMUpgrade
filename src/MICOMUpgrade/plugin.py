@@ -459,7 +459,7 @@ class FirmwareUpgrade(Screen):
 				self.verfile = fp.readline()
 				fp.close()
 				self.verfile = self.verfile.strip("\n")
-			except:
+			except OSError:
 				self.verfile = "N/A"
 			self["newversion"].setText(self.verfile)
 
@@ -469,7 +469,7 @@ class FirmwareUpgrade(Screen):
 					self["status"].setText("You have already latest front panel version")
 				else:
 					self["status"].setText("Press the Green/OK button, if you want to upgrade to this file:\n%s\n" % (data))
-			except:
+			except Exception:
 				self["status"].setText("Press the Green/OK button, if you want to upgrade to this file:\n%s\n" % (data))
 			self.updateFilePath = data
 			if self.fileopenmode is False:
