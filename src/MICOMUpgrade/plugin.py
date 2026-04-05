@@ -1,10 +1,8 @@
-from __future__ import print_function
 # for localized messages
 from . import _
 
 import os
-from six.moves.urllib.request import urlretrieve
-from six.moves import urllib
+from urllib.request import urlretrieve, URLopener
 
 from Plugins.Plugin import PluginDescriptor
 
@@ -264,7 +262,7 @@ class Filebrowser(Screen):
 		def doHook(blockNumber, blockSize, totalSize):
 			if blockNumber * blockSize > totalSize and cbfunc is not None:
 				cbfunc(tar)
-		opener = urllib.URLopener()
+		opener = URLopener()
 		try:
 			opener.open(uri)
 		except Exception:
